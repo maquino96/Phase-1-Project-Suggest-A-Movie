@@ -71,7 +71,7 @@ class Interface
         self.questionnaire.update(q2answer: genre)
         genre_var = Genre.create(name: self.genre, questionnaire_id: questionnaire.id) 
 
-        binding.pry 
+        return_movie
     end 
 
     #  q2subquestion
@@ -119,7 +119,11 @@ class Interface
     end 
 
     def return_movie
-
+        # using self.genre, return a movie and it's details
+        gen_arr = Movie.all.select{|movie| movie.genre == self.genre}
+        movie_inst = gen_arr[rand(0..gen_arr.length-1)]
+        # binding.pry 
+        puts "The movie chosen for you is #{movie_inst.name} and it has a rating of #{movie_inst.rating} stars with a feature length of #{movie_inst.length} minutes."
     end 
 
 end 

@@ -79,6 +79,9 @@ user2 = User.create(name: "Joe", password: "1234")
 
 movie1 = Movie.create(name: user1.name, genre: "Action", length: 123, rating: 9)
 movie2 = Movie.create(name: "Star Wars", genre: "Comedy", length: 234, rating: 8)
+movie3 = Movie.create(name: "LoTR: 1", genre: "Thriller", length: 123, rating: 10) 
+movie4 = Movie.create(name: "HP6", genre: "Thriller", length: 234, rating: 9)
+
 
 genQ = Questionnaire.create(name: "Q1", user_id: user1.id, q1: "Action or Comedy?", q2: "From Action Choose the following genres: option 1, option2, option 3")
 

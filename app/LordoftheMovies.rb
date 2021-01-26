@@ -17,5 +17,3 @@ class LordoftheMovies
   
 end
 
-puts "IT'LL BE UP AND RUNNING SOON ENOUGH"
-puts "Testing git branching and git merge"
