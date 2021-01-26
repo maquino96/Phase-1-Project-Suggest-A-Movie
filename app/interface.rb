@@ -4,10 +4,11 @@ require 'pry'
 class Interface
 
     attr_reader :prompt
-    attr_accessor :questionnaire 
+    attr_accessor :questionnaire, :user
 
     def initialize
         @prompt = TTY::Prompt.new
+        @user = nil
     end 
 
     def welcome
@@ -85,14 +86,21 @@ class Interface
     end 
 
     def user_sign_in
-        # name = prompt.ask("Please enter your Username")
-        # while User.find_by(name: name)
-        #     password = prompt.ask("Please enter your Password")
-        # else 
-        #     puts "Username does not exist"
-        #     name = prompt.ask("Please enter your Username")
-        # end
-        Questionnaire.create
+        name = prompt.ask("Please enter your Username")
+        if User.find_by(name: name)
+            password = prompt.ask("Please enter your Password")
+        binding.pry
+            if User.find_by(password: password)
+                questionnaire = Questionnaire.create(name: "TestQ") 
+            else
+                puts "Wrong password"
+                self.welcome
+            end
+        else
+            puts "Username does not exist. Please make account"
+            self.welcome
+        end
+        self.q1 
     end
 
     def user_sign_up
@@ -102,7 +110,7 @@ class Interface
             name = prompt.ask("Please enter your new Username")
         end 
         password = prompt.mask("Please enter your new Password")
-        User.create(name: name, password: password)
+        user = User.create(name: name, password: password)
         self.welcome
     end
 
