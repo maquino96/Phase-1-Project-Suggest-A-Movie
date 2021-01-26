@@ -10,3 +10,5 @@ class Interface
         puts 'WELCOME!'
     end 
 end 
+
+puts "TEST1.2.3"
