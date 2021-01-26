@@ -10,7 +10,11 @@ class LordoftheMovies
     # exit
   end
 
+
   private
 
   
 end
+
+puts "IT'LL BE UP AND RUNNING SOON ENOUGH"
+puts "Testing git branching and git merge"
