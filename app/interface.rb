@@ -7,10 +7,13 @@ require 'pry'
 class Interface
 
     attr_reader :prompt
-    attr_accessor :questionnaire 
+    attr_accessor :user, :questionnaire, :genre
 
     def initialize
         @prompt = TTY::Prompt.new
+        @user = User.create(name: "BoB")
+        @genre = nil
+
     end 
 
     def welcome
@@ -41,6 +44,11 @@ class Interface
             menu.choice "Drama", -> {q2drama}
             menu.choice "Fantasy", -> {q2fantasy}
         end 
+
+        questionnaire.update.user_id = user.id
+        questionnaire.update.q2answer = self.genre
+        genre_var = Genre.create(name: self.genre, questionnaire_id: questionnaire.id) 
+
         binding.pry
     end 
 
@@ -50,7 +58,7 @@ class Interface
         # display action generes (using tty selector)
         # depending on what is selected create new Genre#
         prompt.select("Choose an action based genre:") do |menu|
-            menu.choice "Thriller", -> {"test outcome"}
+            menu.choice "Thriller", -> {self.genre = "Thriller"}
             menu.choice "Crime", -> {}
             menu.choice "Adventure", -> {}
         end 
