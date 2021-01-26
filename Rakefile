@@ -17,6 +17,9 @@ task :start do
 
   interface =Interface.new
   interface.welcome
+
+  interface.q1 
+
 end
 
 namespace :remind_me_about do
