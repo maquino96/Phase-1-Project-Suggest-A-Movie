@@ -12,8 +12,8 @@ end
 
 desc "start our app"
 task :start do
-  # app = LordoftheMovies.new
-  # app.run
+  app = LordoftheMovies.new
+  app.run
 
   interface =Interface.new
   interface.welcome
