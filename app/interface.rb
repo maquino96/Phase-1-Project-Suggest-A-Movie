@@ -1,8 +1,5 @@
-<<<<<<< HEAD
 require 'pry'
-=======
 
->>>>>>> introscreen-Blainelove
 
 class Interface
 
@@ -22,7 +19,6 @@ class Interface
         end
     end 
 
-<<<<<<< HEAD
 
     ##INTROSCREEN - Login / Signup
 
@@ -88,7 +84,6 @@ class Interface
         # only recommends one of the LoTR movies
     end 
 
-=======
     def user_sign_in
         # name = prompt.ask("Please enter your Username")
         # while User.find_by(name: name)
@@ -114,7 +109,6 @@ class Interface
     def exit
         puts "Goodbye, Thanks for using Lord of the Movies"
     end
->>>>>>> introscreen-Blainelove
 end 
 
 puts "TEST1.2.3"
