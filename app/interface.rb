@@ -11,44 +11,50 @@ class Interface
         @questionnaire = nil
     end 
 
-    def welcome
-        puts "Welcome to Lord of the Movies"
-        prompt.select("Please select from the following") do |main|
-            main.choice "Sign in", -> { user_sign_in }
-            main.choice "Sign up", -> { user_sign_up }
-            main.choice "Exit", -> { exit }
-        end
-    end 
+    # def welcome
+    #     puts "Welcome to Lord of the Movies"
+    #     prompt.select("Please select from the following") do |main|
+    #         main.choice "Sign in", -> { user_sign_in }
+    #         main.choice "Sign up", -> { user_sign_up }
+    #         main.choice "Exit", -> { exit }
+    #     end
+    # end 
 
-    def user_sign_in
-        name = prompt.ask("Please enter your Username")
-        if User.find_by(name: name)
-            password = prompt.ask("Please enter your Password")
-            user = User.all.find_by(name: name, password: password)
-        # binding.pry
-            if User.find_by(password: password)
-                self.questionnaire = Questionnaire.create(name: "TestQ", user_id: user.id) 
-            else
-                puts "Wrong password"
-                self.welcome
-            end
-        else
-            puts "Username does not exist. Please make account"
-            self.welcome
-        end
-        self.q1 
+    # def user_sign_in
+    #     name = prompt.ask("Please enter your Username")
+    #     if User.find_by(name: name)
+    #         password = prompt.ask("Please enter your Password")
+    #         user = User.all.find_by(name: name, password: password)
+    #     # binding.pry
+    #         if User.find_by(password: password)
+    #             self.questionnaire = Questionnaire.create(name: "TestQ", user_id: user.id) 
+    #         else
+    #             puts "Wrong password"
+    #             self.welcome
+    #         end
+    #     else
+    #         puts "Username does not exist. Please make account"
+    #         self.welcome
+    #     end
+    #     self.q1 
+    # end
+
+    def login_or_signup
+        username = down_ask("Enter your username to sign up/log in:")
+        @user = User.find_or_create_by(username: username, password: password)
+        self.questionnaire = Questionnaire.create(name: "TestQ", user_id: user.id) 
     end
 
-    def user_sign_up
-        name = prompt.ask("Please enter your new Username")
-        while User.find_by(name: name)
-            puts "Account already ctreated with this name"
-            name = prompt.ask("Please enter your new Username")
-        end 
-        password = prompt.mask("Please enter your new Password")
-        user = User.create(name: name, password: password)
-        self.welcome
-    end
+    # def user_sign_up
+    #     name = prompt.ask("Please enter your new Username")
+    #     while User.find_by(name: name)
+    #         puts "Account already ctreated with this name"
+    #         name = prompt.ask("Please enter your new Username")
+    #     end 
+    #     password = prompt.mask("Please enter your new Password")
+    #     user = User.create(name: name, password: password)
+    #     self.welcome
+    # end
 
     def exit
         puts "Goodbye, Thanks for using Lord of the Movies"
