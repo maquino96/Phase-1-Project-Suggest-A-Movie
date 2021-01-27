@@ -13,3 +13,7 @@ gem "pry"
 gem "faker"
 
 gem "colorize"
+
+#internet connection
+gem 'uri'
+gem 'openssl'
