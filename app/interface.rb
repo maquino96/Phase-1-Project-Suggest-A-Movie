@@ -3,13 +3,19 @@ require 'pry'
 class Interface
 
     attr_reader :prompt
-    attr_accessor :questionnaire, :user, :genre
+    attr_accessor :questionnaire, :user, :genre_str, :genre
 
     def initialize
         @prompt = TTY::Prompt.new
-        @user = nil
-        @questionnaire = nil
+        # @user = nil
+        # @questionnaire = nil
+        # @genre = nil 
     end 
+
+    def run
+
+    end 
+
 
     def welcome
         puts "Welcome to Lord of the Movies"
@@ -68,10 +74,10 @@ class Interface
             menu.choice "Fantasy", -> {q2fantasy}
         end 
 
-        self.questionnaire.update(q2answer: genre)
-        genre_var = Genre.create(name: self.genre, questionnaire_id: questionnaire.id) 
+        self.questionnaire.update(q2answer: self.genre_str)
+        genre = Genre.create(name: self.genre_str, questionnaire_id: questionnaire.id) 
 
-        return_movie
+        return_movie(genre)
     end 
 
     #  q2subquestion
@@ -80,9 +86,9 @@ class Interface
         # display action generes (using tty selector)
         # depending on what is selected create new Genre#
         prompt.select("Choose an action based genre:") do |menu|
-            menu.choice "Thriller", -> {self.genre = "Thriller"}
-            menu.choice "Crime", -> {self.genre = "Crime"}
-            menu.choice "Adventure", -> {self.genre = "Adventure"}
+            menu.choice "Thriller", -> {self.genre_str = "Thriller"}
+            menu.choice "Crime", -> {self.genre_str = "Crime"}
+            menu.choice "Adventure", -> {self.genre_str = "Adventure"}
         end 
 
     end 
@@ -92,9 +98,9 @@ class Interface
         # depending on what is selected create new Genre#
 
         prompt.select("Choose a a fantasy based genre:") do |menu|
-            menu.choice "Sci-Fi", -> {self.genre = "Sci-Fi"}
-            menu.choice "Animation", -> {self.genre = "Animation"}
-            menu.choice "Superhero", -> {self.genre = "Superhero"}
+            menu.choice "Sci-Fi", -> {self.genre_str = "Sci-Fi"}
+            menu.choice "Animation", -> {self.genre_str = "Animation"}
+            menu.choice "Superhero", -> {self.genre_str = "Superhero"}
         end 
 
     end 
@@ -103,9 +109,9 @@ class Interface
         # display action generes (using tty selector)
         # depending on what is selected create new Genre#
         prompt.select("Choose a drama based genre:") do |menu|
-            menu.choice "Romance", -> {self.genre = "Romance"}
-            menu.choice "Mystery", -> {self.genre = "Mystery"}
-            menu.choice "Drama", -> {self.genre = "Drama"}
+            menu.choice "Romance", -> {self.genre_str = "Romance"}
+            menu.choice "Mystery", -> {self.genre_str = "Mystery"}
+            menu.choice "Drama", -> {self.genre_str = "Drama"}
         end 
 
     end 
@@ -118,14 +124,22 @@ class Interface
         # only recommends one of the LoTR movies
     end 
 
-    def return_movie
-        # using self.genre, return a movie and it's details
-        gen_arr = Movie.all.select{|movie| movie.genre == self.genre}
-        movie_inst = gen_arr[rand(0..gen_arr.length-1)]
-        # binding.pry 
-        puts "The movie chosen for you is #{movie_inst.name} and it has a rating of #{movie_inst.rating} stars with a feature length of #{movie_inst.length} minutes."
+
+    ###### SEEDED MOVIE -- MVP #####
+    # def return_movie
+    #     # using self.genre, return a movie and it's details
+    #     gen_arr = Movie.all.select{|movie| movie.genre == self.genre_str}
+    #     movie_inst = gen_arr[rand(0..gen_arr.length-1)]
+    #     binding.pry 
+    #     puts "The movie chosen for you is #{movie_inst.name} and it has a rating of #{movie_inst.rating} stars with a feature length of #{movie_inst.length} minutes."
+    # end 
+
+    def return_movie(genre_inst)
+        
+        sampled_movie = genre_inst.get_movie_id_api
+        new_movie = Movie.create(genre: genre_inst.name, imdb_id: sampled_movie)
+        new_movie.movie_metadata_api
+
     end 
 
 end 
-
-puts "TEST1.2.3"
