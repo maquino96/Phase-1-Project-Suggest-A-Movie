@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_25_201605) do
+ActiveRecord::Schema.define(version: 2021_01_27_183933) do
 
   create_table "genres", force: :cascade do |t|
     t.string "questionnaire_id"
@@ -22,7 +22,9 @@ ActiveRecord::Schema.define(version: 2021_01_25_201605) do
     t.string "name"
     t.string "genre"
     t.integer "length"
-    t.integer "rating"
+    t.float "rating"
+    t.string "imdb_id"
+    t.integer "user_id"
   end
 
   create_table "questionnaires", force: :cascade do |t|
