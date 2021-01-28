@@ -26,6 +26,12 @@ class Interface
         end
     end 
 
+    # def login_or_signup
+    #     username = down_ask("Enter your username to sign up/log in:")
+    #     @user = User.find_or_create_by(username: username, password: password)
+    #     self.questionnaire = Questionnaire.create(name: "TestQ", user_id: user.id) 
+    # end
+
     def user_sign_in
         name = prompt.ask("Please enter your Username")
         if User.find_by(name: name)
@@ -55,6 +61,7 @@ class Interface
         user = User.create(name: name, password: password)
         self.welcome
     end
+
 
     def exit
         puts "Goodbye, Thanks for using Lord of the Movies"
