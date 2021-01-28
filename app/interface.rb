@@ -47,6 +47,7 @@ class Interface
         prompt.select("Please select from the following") do |main|
             main.choice "Sign in", -> { user_sign_in }
             main.choice "Sign up", -> { user_sign_up }
+            main.choice "Best movies?", -> { oneMovieToRuleThemAll }
             main.choice "Exit", -> { exit }
         end
     end 
@@ -160,6 +161,26 @@ class Interface
     end 
 
     def oneMovieToRuleThemAll
+        system("clear")
+        sleep(0.5)
+        puts "The Lord of the Rings triology... Obviously"
+        puts " -:-::`                                                                                    
+        - +-.o-+:+++                                                                              
+ `:---:   /-`+-+-+++`                                                                             
+  .+::   .+:```..```     ``       ```              `:::::::-`                                     
+  `o:.     -:/:-://-  -+//:/:.`:++:::/:-  `.-``-.`   +:: `./o..---.:/::   ./:: `::/:/:: -////:    
+   +:.    -/:     -:/  /:. :::  +/    ::: +-`/:+/:   +:-   /:: /::` //:/.  :/ //:`   -::::  .:    
+   +:.    /:-      +:. /:::/:`  +/    .+/ .:-:-/.`   /::`.:/:` /:-  //`:/:`:/.+/   ....`-:/:-`    
+   +:.    .//.    -//  +/..//. `+/    /:--:+:/.--::  /::--/+-  /:-  :/  .:/+/`/:.  `/:-:  `-//`   
+   +:-     `-//:://-  -+/:``:/::++//:/:.   +.:/+-o+` +:-  `/::./::``//.   -:/``-/:-./:-+:---+:    
+  `+:-   /.                   ``          `/-.`.....//:/-   .:/+:......    `.    `...`  ....`     
+ `//://///                                                    .---                                
+                                                                                                  
+                          ".colorize(:yellow)
+        
+        sleep(5)
+        system("clear")
+        exit!
         # only recommends one of the LoTR movies
     end 
 
