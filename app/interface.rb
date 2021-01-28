@@ -13,11 +13,14 @@ class Interface
         welcome
         sleep(0.3)
         q1
+        system("cleear")
+        return_movie(self.genre)
         system("clear")
         again 
     end 
 
     def welcome
+        system("clear")
         puts "Welcome to..."
         sleep(2)
         # system("clear")
@@ -28,7 +31,7 @@ class Interface
         `Y88b   888  888 888 888 888 888 d888  88b C888   888           /Y88b            d888bdY88b    d888  'i  Y88b  /  888 d888  88b 
           Y88b, 888  888 888_88  888_88 8888__888  Y88b   888          /  Y88b          / Y88Y Y888b   8888   *i  Y88 /   888 8888__888 
            8888 888  888  /       /      Y888   ,   888D  888         /____Y88b        /   YY   Y888b  Y888   'i   Y8/    888 Y888    , 
-        '__88P' '88*888 Cb      Cb        88___/  '_88P    88_/      /      Y88b      /          Y888b  ""88_-~*      Y     888  688___/  
+        '__88P' '88*888 Cb      Cb        88___/  '_88P    88_/      /      Y88b      /          Y888b  ""88_-~*      Y     888 688___/  
                           Y8""8D  Y8""8D                                                                                                 
         ".colorize(:light_blue)
         sleep(2.2)
@@ -40,12 +43,6 @@ class Interface
         end
     end 
 
-    # def login_or_signup
-    #     username = down_ask("Enter your username to sign up/log in:")
-    #     @user = User.find_or_create_by(username: username, password: password)
-    #     self.questionnaire = Questionnaire.create(name: "TestQ", user_id: user.id) 
-    # end
-
     def user_sign_in
         sleep(1.5)
         system("clear")
@@ -54,39 +51,29 @@ class Interface
             sleep(0.5)
             password = prompt.mask("Please enter your Password")
             system("clear")
-            if User.all.find_by(name: name, password: password) 
-                user = User.all.find_by(name: name, password: password)
+            user = User.all.find_by(name: name, password: password)
+            if User.find_by(password: password)
                 self.questionnaire = Questionnaire.create(name: user.name, user_id: user.id) 
             else
-                puts "Wrong password for this user please try again"
-                sleep(3)
-                system("clear")
-                self.welcome
+                puts "Wrong password"
+                welcome
             end
         else
             puts "Username does not exist. Please make account"
-            sleep(1.5)
-            self.welcome
+            welcome
         end
     end
 
     def user_sign_up
-        sleep(1.5)
-        system("clear")
         name = prompt.ask("Please enter your new Username")
         while User.find_by(name: name)
-            puts "Account already created with this name"
-            sleep(2)
-            system("clear")
+            puts "Account already ctreated with this name"
             name = prompt.ask("Please enter your new Username")
-            
         end 
         password = prompt.mask("Please enter your new Password")
         user = User.create(name: name, password: password)
-        system("clear")
         self.welcome
     end
-
 
     def exit
         system("clear")
@@ -99,6 +86,7 @@ class Interface
     #####Questionnaire##### 
 
     def q1
+        system("clear")
         sleep(0.5)
         prompt.select("Choose a Category:") do |menu|
             menu.choice "Action", -> { questionnaire.update(q1answer: "Action")
@@ -110,13 +98,13 @@ class Interface
         end 
 
         self.questionnaire.update(q2answer: self.genre_str)
-        genre = Genre.create(name: self.genre_str, questionnaire_id: questionnaire.id) 
-        system("clear")
-        return_movie(genre)
+        self.genre = Genre.create(name: self.genre_str, questionnaire_id: questionnaire.id) 
+
+        update_choice
     end 
 
     def q2action
-        binding.pry
+        # binding.pry
         system("clear")
         sleep(0.3)
         prompt.select("Choose an action based genre:") do |menu|
@@ -149,6 +137,15 @@ class Interface
 
     end 
 
+    def update_choice
+        system("clear")
+        prompt.select("You have selected the following...\nCategory: #{questionnaire.q1answer}\nGenre: #{questionnaire.q2answer}\nPlease confirm or update your choices.") do |menu|
+            menu.choice "Confirm", -> { }
+            menu.choice "Update", -> { q1 }
+        end 
+
+    end 
+
     def q2surprise
         
         # pick and display a random movie 
@@ -168,7 +165,7 @@ class Interface
     # end 
 
     def return_movie(genre_inst)
-        
+        # binding.pry
         sampled_movie = genre_inst.get_movie_id_api
         new_movie = Movie.create(genre: genre_inst.name, imdb_id: sampled_movie)
         
