@@ -3,7 +3,7 @@ require 'pry'
 class Interface
 
     attr_reader :prompt, :title
-    attr_accessor :questionnaire, :user, :genre_str, :genre
+    attr_accessor :questionnaire, :user, :search_term, :genre
 
     def initialize
         @prompt = TTY::Prompt.new
@@ -12,7 +12,8 @@ class Interface
     def run
         welcome
         sleep(0.3)
-        q1
+        menu 
+        # MENU: Choose from Category / Genre, Provide a search term, RANDOM MOVIE! / SETTINGS-Sep method 
         system("clear")
         return_movie(self.genre)
         system("clear")
@@ -20,7 +21,7 @@ class Interface
     end 
 
     def run_2
-        q1
+        menu 
         system("clear")
         return_movie(self.genre)
         system("clear")
@@ -92,6 +93,39 @@ class Interface
         exit!
     end
 
+    # MENU: Choose from Category / Genre, Provide a search term, RANDOM MOVIE! / SETTINGS-Sep method 
+
+    #####-MENU-#####
+    def menu
+        system("clear")
+        sleep(0.3)
+        prompt.select('*** MAIN MENU ***') do |menu|
+            menu.choice "Choose from Category/Genre", -> {q1}
+            menu.choice "Provide a search term", -> { questionnaire.update(q1answer: "search-term")
+                query_term }
+            menu.choice "Surpise me! (Random Movie)", -> {exit!}    
+            menu.choice "Settings", -> { exit!}
+        end 
+    end 
+
+    def query_term
+        system("clear")
+        self.search_term = prompt.ask("Please input a search term for your movie.")
+        self.questionnaire.update(q2answer: search_term)
+        self.genre = Genre.create(name: search_term, questionnaire_id: questionnaire.id) 
+
+        update_term
+    end 
+
+    def update_term
+        system("clear")
+        prompt.select("You have inputted the following search term: #{questionnaire.q2answer}\nPlease confirm or update your choice.") do |menu|
+            menu.choice "Confirm", -> { }
+            menu.choice "Update", -> { query_term }
+        end 
+
+    end 
+
     #####Questionnaire##### 
 
     def q1
@@ -106,8 +140,8 @@ class Interface
                 q2fantasy}
         end 
 
-        self.questionnaire.update(q2answer: self.genre_str)
-        self.genre = Genre.create(name: self.genre_str, questionnaire_id: questionnaire.id) 
+        self.questionnaire.update(q2answer: self.search_term)
+        self.genre = Genre.create(name: self.search_term, questionnaire_id: questionnaire.id) 
 
         update_choice
     end 
@@ -117,9 +151,9 @@ class Interface
         system("clear")
         sleep(0.3)
         prompt.select("Choose an action based genre:") do |menu|
-            menu.choice "Thriller", -> {self.genre_str = "Thriller"}
-            menu.choice "Crime", -> {self.genre_str = "Crime"}
-            menu.choice "Adventure", -> {self.genre_str = "Adventure"}
+            menu.choice "Thriller", -> {self.search_term = "Thriller"}
+            menu.choice "Crime", -> {self.search_term = "Crime"}
+            menu.choice "Adventure", -> {self.search_term = "Adventure"}
         end 
 
     end 
@@ -128,9 +162,9 @@ class Interface
         system("clear")
         sleep(0.3)
         prompt.select("Choose a a fantasy based genre:") do |menu|
-            menu.choice "Sci-Fi", -> {self.genre_str = "Sci-Fi"}
-            menu.choice "Animation", -> {self.genre_str = "Animation"}
-            menu.choice "Superhero", -> {self.genre_str = "Superhero"}
+            menu.choice "Sci-Fi", -> {self.search_term = "Sci-Fi"}
+            menu.choice "Animation", -> {self.search_term = "Animation"}
+            menu.choice "Superhero", -> {self.search_term = "Superhero"}
         end 
 
     end 
@@ -139,9 +173,9 @@ class Interface
         system("clear")
         sleep(0.3)
         prompt.select("Choose a drama based genre:") do |menu|
-            menu.choice "Romance", -> {self.genre_str = "Romance"}
-            menu.choice "Mystery", -> {self.genre_str = "Mystery"}
-            menu.choice "Drama", -> {self.genre_str = "Drama"}
+            menu.choice "Romance", -> {self.search_term = "Romance"}
+            menu.choice "Mystery", -> {self.search_term = "Mystery"}
+            menu.choice "Drama", -> {self.search_term = "Drama"}
         end 
 
     end 
@@ -162,21 +196,26 @@ class Interface
 
     def oneMovieToRuleThemAll
         system("clear")
-        sleep(0.5)
+        sleep(3)
         puts "The Lord of the Rings triology... Obviously"
-        puts " -:-::`                                                                                    
-        - +-.o-+:+++                                                                              
- `:---:   /-`+-+-+++`                                                                             
-  .+::   .+:```..```     ``       ```              `:::::::-`                                     
-  `o:.     -:/:-://-  -+//:/:.`:++:::/:-  `.-``-.`   +:: `./o..---.:/::   ./:: `::/:/:: -////:    
-   +:.    -/:     -:/  /:. :::  +/    ::: +-`/:+/:   +:-   /:: /::` //:/.  :/ //:`   -::::  .:    
-   +:.    /:-      +:. /:::/:`  +/    .+/ .:-:-/.`   /::`.:/:` /:-  //`:/:`:/.+/   ....`-:/:-`    
-   +:.    .//.    -//  +/..//. `+/    /:--:+:/.--::  /::--/+-  /:-  :/  .:/+/`/:.  `/:-:  `-//`   
-   +:-     `-//:://-  -+/:``:/::++//:/:.   +.:/+-o+` +:-  `/::./::``//.   -:/``-/:-./:-+:---+:    
-  `+:-   /.                   ``          `/-.`.....//:/-   .:/+:......    `.    `...`  ....`     
- `//://///                                                    .---                                
-                                                                                                  
-                          ".colorize(:yellow)
+        puts "`
+        
+                 ___ . .  _                                                                                             
+        'T$$$P'   |  |_| |_                                                                                             
+         :$$$     |  | | |_                                                                                             
+         :$$$                                                      'T$$$$$$$b.                                          
+         :$$$     .g$$$$$p.   T$$$$b.    T$$$$$bp.                   BUG    'Tb      T$b      T$P   .g$P^^T$$  ,gP^^T$$ 
+          $$$    d^'      '^b  $$  'Tb    $$    'Tb    .s^s. :sssp   $$$     :$; T$$P $^b.     $   dP"     'T :$P     T
+          :$$   dP         Tb  $$   :$;   $$      Tb  db   db $      $$$     :$;  $$  $  Tp    $  d$           Tbp.   
+          :$$  :$;         :$; $$   :$;   $$      :$; T.   .P $^^    $$$    .dP   $$  $   ^b.  $ :$;            "T$$p.  
+          $$$  :$;         :$; $$...dP    $$      :$;  **s**  $      $$$...dP     $$  $     Tp $ :$;     "T$$       T$b 
+          $$$   Tb.       ,dP  $$"" Tb    $$      dP ""$""$" "$**^^  $$$""T$b     $$  $      ^b$  T$       T$ ;      $$;
+          $$$    Tp._   _,gP   $$    Tb.  $$    ,dP    $  $...$ $..  $$$   T$b    :$  $       ^$   Tb.     :$ T.    ,dP 
+          $$$;    "^$$$$$^"   d$$     T.d$$$$$P^"      $  $"""$ $"", $$$    T$b  d$$bd$b      d$b   "^TbsssP"  T$bgd$P  
+          $$$b.____.dP                                 $ .$. .$.$ss,d$$$b.   T$b.                                       
+        .d$$$$$$$$$$P'"                                                      'T$b.
+        
+        ".colorize(:yellow)
         
         sleep(5)
         system("clear")
@@ -187,7 +226,7 @@ class Interface
     ###### SEEDED MOVIE -- MVP #####
     # def return_movie
     #     # using self.genre, return a movie and it's details
-    #     gen_arr = Movie.all.select{|movie| movie.genre == self.genre_str}
+    #     gen_arr = Movie.all.select{|movie| movie.genre == self.search_term}
     #     movie_inst = gen_arr[rand(0..gen_arr.length-1)]
     #     binding.pry 
     #     puts "The movie chosen for you is #{movie_inst.name} and it has a rating of #{movie_inst.rating} stars with a feature length of #{movie_inst.length} minutes."

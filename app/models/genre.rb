@@ -4,6 +4,14 @@ class Genre < ActiveRecord::Base
   belongs_to :questionnaire
   # add associatons!
 
+  attr_reader :genre 
+
+  @@genre = ['fantasy','animation','superhero','sci-fi','drama','romance','mystery','action','thriller','crime','comedy','adventure']
+
+  def self.genre
+    @@genre
+  end 
+
   #### This class may have to be renamed to "Requests" -- the genre is determined during the questionnaire phase, and movies are pulled from the api. Atleat from an attribute /relationship standpoint. From there we can collect each of the users genre selections through name and a running list of the movies they've instantiated.
   ####
 
