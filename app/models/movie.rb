@@ -33,7 +33,20 @@ class Movie < ActiveRecord::Base
 
       self.update(name: name, length: length, rating: rating) 
 
-      puts "The film selected for you is #{self.name}, has a feature length of #{self.length} minutes and a metacritic score of #{self.rating} "
+      puts "The film selected for you is #{self.name}.".colorize(:green)
+      sleep(2.35)
+      puts "It has a feature length of #{self.length} minutes and a metacritic score of #{self.rating}.".colorize(:green)
+      sleep(2.5)
+      puts "."
+      sleep(0.5)
+      puts".."
+      sleep(0.5)
+      puts"..."
+      sleep(0.5)
+      puts".."
+      sleep(0.5)
+      ;puts"."
+      sleep(0.5)
     end 
 
 

@@ -1,4 +1,6 @@
 require 'bundler'
+require 'net/http'
+
 Bundler.require
 require 'net/http'
 

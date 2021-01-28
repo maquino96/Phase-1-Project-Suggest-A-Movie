@@ -16,9 +16,22 @@ task :start do
   app.run
 
   interface =Interface.new
-  interface.welcome
+  interface.run 
 
 end
+
+desc "resets databases"
+task :reset_db do
+  Genre.destroy_all
+  User.destroy_all
+  Questionnaire.destroy_all
+  Movie.destroy_all
+  Genre.reset_pk_sequence
+  User.reset_pk_sequence
+  Questionnaire.reset_pk_sequence
+  Movie.reset_pk_sequence
+  puts "🔥 🔥 🔥  DB RESET COMPLETED 🔥 🔥 🔥 "
+end 
 
 namespace :remind_me_about do
 
