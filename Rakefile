@@ -16,7 +16,7 @@ task :start do
   app.run
 
   interface =Interface.new
-  interface.welcome
+  interface.run 
 
 end
 
