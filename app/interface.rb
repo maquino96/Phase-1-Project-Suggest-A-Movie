@@ -13,7 +13,15 @@ class Interface
         welcome
         sleep(0.3)
         q1
-        system("cleear")
+        system("clear")
+        return_movie(self.genre)
+        system("clear")
+        again 
+    end 
+
+    def run_2
+        q1
+        system("clear")
         return_movie(self.genre)
         system("clear")
         again 
@@ -178,7 +186,7 @@ class Interface
 
     def again
         prompt.select("Would you like another movie  suggested?") do |main|
-            main.choice "One more try!", -> { q1 }
+            main.choice "One more try!", -> { run_2 }
             main.choice "No thanks.", -> { exit }
         end
 
