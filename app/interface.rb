@@ -82,9 +82,12 @@ class Interface
     def q1
         sleep(0.5)
         prompt.select("Choose a Category:") do |menu|
-            menu.choice "Action", -> {q2action}
-            menu.choice "Drama", -> {q2drama}
-            menu.choice "Fantasy", -> {q2fantasy}
+            menu.choice "Action", -> { questionnaire.update(q1answer: "Action")
+                q2action}
+            menu.choice "Drama", -> { questionnaire.update(q1answer: "Drama")
+                q2drama}
+            menu.choice "Fantasy", -> { questionnaire.update(q1answer: "Fantasy")
+                q2fantasy}
         end 
 
         self.questionnaire.update(q2answer: self.genre_str)
@@ -94,6 +97,7 @@ class Interface
     end 
 
     def q2action
+        binding.pry
         system("clear")
         sleep(0.3)
         prompt.select("Choose an action based genre:") do |menu|
