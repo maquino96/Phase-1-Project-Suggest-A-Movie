@@ -99,11 +99,12 @@ class Interface
     def menu
         system("clear")
         sleep(0.3)
-        prompt.select('*** MAIN MENU ***') do |menu|
+        prompt.select('      *** MAIN MENU ***') do |menu|
             menu.choice "Choose from Category/Genre", -> {q1}
             menu.choice "Provide a search term", -> { questionnaire.update(q1answer: "search-term")
                 query_term }
-            menu.choice "Surpise me! (Random Movie)", -> {exit!}    
+            menu.choice "Surpise me! (Random Movie)", -> { questionnaire.update(q1answer: "random-search")
+                random_movie }    
             menu.choice "Settings", -> { exit!}
         end 
     end 
@@ -123,6 +124,14 @@ class Interface
             menu.choice "Confirm", -> { }
             menu.choice "Update", -> { query_term }
         end 
+
+    end
+    
+    def random_movie
+        system("clear")
+        self.search_term = Genre.random_genre
+        self.questionnaire.update(q2answer: search_term)
+        self.genre = Genre.create(name: search_term, questionnaire_id: questionnaire.id) 
 
     end 
 
@@ -219,7 +228,7 @@ class Interface
         
         sleep(5)
         system("clear")
-        exit!
+        run 
         # only recommends one of the LoTR movies
     end 
 
