@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_27_183933) do
+ActiveRecord::Schema.define(version: 2021_01_29_004735) do
 
   create_table "genres", force: :cascade do |t|
     t.string "questionnaire_id"
@@ -41,6 +41,7 @@ ActiveRecord::Schema.define(version: 2021_01_27_183933) do
   create_table "users", force: :cascade do |t|
     t.string "name"
     t.string "password"
+    t.string "favorites"
   end
 
 end

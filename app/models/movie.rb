@@ -38,15 +38,15 @@ class Movie < ActiveRecord::Base
       puts "It has a feature length of #{self.length} minutes and a metacritic score of #{self.rating}.".colorize(:green)
       sleep(2.5)
       puts "."
-      sleep(0.5)
+      sleep(0.3)
       puts".."
-      sleep(0.5)
+      sleep(0.3)
       puts"..."
-      sleep(0.5)
+      sleep(0.3)
       puts".."
-      sleep(0.5)
-      ;puts"."
-      sleep(0.5)
+      sleep(0.3)
+      puts"."
+      sleep(0.3)
     end 
 
 

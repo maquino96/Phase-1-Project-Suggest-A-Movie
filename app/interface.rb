@@ -42,7 +42,7 @@ class Interface
            8888 888  888  /       /      Y888   ,   888D  888         /____Y88b        /   YY   Y888b  Y888   'i   Y8/    888 Y888    , 
         '__88P' '88*888 Cb      Cb        88___/  '_88P    88_/      /      Y88b      /          Y888b  ""88_-~*      Y     888 688___/  
                           Y8""8D  Y8""8D                                                                                                 
-        ".colorize(:light_blue)
+                                                     Created by: Blaine Love and Matthew Aquino".colorize(:light_blue)
         sleep(2.2)
         # system("clear")
         prompt.select("Please select from the following") do |main|
@@ -61,7 +61,7 @@ class Interface
             sleep(0.5)
             password = prompt.mask("Please enter your Password")
             system("clear")
-            user = User.all.find_by(name: name, password: password)
+            self.user = User.all.find_by(name: name, password: password)
             if User.find_by(password: password)
                 self.questionnaire = Questionnaire.create(name: user.name, user_id: user.id) 
             else
@@ -69,7 +69,8 @@ class Interface
                 welcome
             end
         else
-            puts "Username does not exist. Please make account"
+            puts "Username does not exist. Please make account."
+            sleep (3.5)
             welcome
         end
     end
@@ -87,8 +88,8 @@ class Interface
 
     def exit
         system("clear")
-        puts "Goodbye, Thanks for using Lord of the Movies"
-        sleep(2.25)
+        puts "Goodbye! Thanks for using our app!!!"
+        sleep(2.5)
         system("clear")
         exit!
     end
@@ -105,7 +106,8 @@ class Interface
                 query_term }
             menu.choice "Surpise me! (Random Movie)", -> { questionnaire.update(q1answer: "random-search")
                 random_movie }    
-            menu.choice "Settings", -> { exit!}
+            menu.choice "Settings", -> { settings }
+            menu.choice "Exit", -> { exit }
         end 
     end 
 
@@ -134,6 +136,46 @@ class Interface
         self.genre = Genre.create(name: search_term, questionnaire_id: questionnaire.id) 
 
     end 
+
+    def settings 
+        system("clear")
+        prompt.select(" *** SETTINGS ***") do |menu|
+        menu.choice "See Favorites", -> { see_favorites }
+        menu.choice "Delete Account", -> { delete_account }
+    end 
+
+    end 
+
+    def see_favorites 
+        user.favorites.split(',').each{|movie| sleep(0.3) 
+            puts movie}
+        sleep(1.5)
+        puts "."
+        sleep(0.3)
+        puts".."
+        sleep(0.3)
+        puts"..."
+        sleep(0.3)
+        puts".."
+        sleep(0.3)
+        puts"."
+        sleep(0.3)
+        prompt.select("Press below to return to Main Menu") do |main|
+            main.choice "BACK", -> { menu }
+        end 
+    end 
+
+    def delete_account
+        User.destroy(user.id)
+        Questionnaire.where(user_id: user.id.to_s).destroy_all
+        Movie.where(user_id: user.id).destroy_all
+        sleep(0.5)
+        puts "Your account has been deleted."
+        sleep(1.5)
+        run   
+    end 
+
+
 
     #####Questionnaire##### 
 
@@ -250,12 +292,31 @@ class Interface
         new_movie.update(user_id: questionnaire.user_id)
         
         new_movie.movie_metadata_api
+
+
+        prompt.select("Would you like to add #{new_movie.name} to your favorites?") do |menu|
+            menu.choice "Yes", -> { add_to_favorites}
+            menu.choice "No", -> { }
+        end 
         # binding.pry
     end 
 
+    def add_to_favorites
+        # binding.pry 
+
+        # user_id = questionnaire.user_id.to_i 
+        # u_inst = User.find(user_id)
+
+        if user.favorites
+            user.update( favorites: user.favorites + ",#{Movie.last.name}")
+        else 
+            user.update( favorites: Movie.last.name) 
+        end 
+    end 
+
     def again
-        prompt.select("Would you like another movie  suggested?") do |main|
-            main.choice "One more try!", -> { run_2 }
+        prompt.select("Would you like another movie suggested?") do |main|
+            main.choice "One more try! (Brings you back to main menu.)", -> { run_2 }
             main.choice "No thanks.", -> { exit }
         end
 
