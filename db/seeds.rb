@@ -1,13 +1,13 @@
 # THIS SEED FILE NEEDS TO BE ENTIRELY REPLACED -- I'M LEAVING CODE FOR YOUR REFERENCE ONLY!
 
-Genre.destroy_all
-User.destroy_all
-Questionnaire.destroy_all
-Movie.destroy_all
-Genre.reset_pk_sequence
-User.reset_pk_sequence
-Questionnaire.reset_pk_sequence
-Movie.reset_pk_sequence
+# Genre.destroy_all
+# User.destroy_all
+# Questionnaire.destroy_all
+# Movie.destroy_all
+# Genre.reset_pk_sequence
+# User.reset_pk_sequence
+# Questionnaire.reset_pk_sequence
+# Movie.reset_pk_sequence
 
 # ########### different ways to write your seeds ############
 
@@ -74,18 +74,18 @@ Movie.reset_pk_sequence
 # puts "🔥 🔥 🔥 🔥 "
 
 
-user1 = User.create(name: "Bob", password: "1234")
-user2 = User.create(name: "Joe", password: "1234")
+# user1 = User.create(name: "Bob", password: "1234")
+# user2 = User.create(name: "Joe", password: "1234")
 
-movie1 = Movie.create(name: user1.name, genre: "Action", length: 123, rating: 9)
-movie2 = Movie.create(name: "Star Wars", genre: "Comedy", length: 234, rating: 8)
-movie3 = Movie.create(name: "LoTR: 1", genre: "Thriller", length: 123, rating: 10) 
-movie4 = Movie.create(name: "HP6", genre: "Thriller", length: 234, rating: 9)
+# movie1 = Movie.create(name: user1.name, genre: "Action", length: 123, rating: 9)
+# movie2 = Movie.create(name: "Star Wars", genre: "Comedy", length: 234, rating: 8)
+# movie3 = Movie.create(name: "LoTR: 1", genre: "Thriller", length: 123, rating: 10) 
+# movie4 = Movie.create(name: "HP6", genre: "Thriller", length: 234, rating: 9)
 
 
-genQ = Questionnaire.create(name: "Q1", user_id: user1.id, q1: "Action or Comedy?", q2: "From Action Choose the following genres: option 1, option2, option 3")
+# genQ = Questionnaire.create(name: "Q1", user_id: user1.id, q1: "Action or Comedy?", q2: "From Action Choose the following genres: option 1, option2, option 3")
 
-action = Genre.create(name: "Action", questionnaire_id: genQ.id, movie_id: movie1.id)
-comedy = Genre.create(name: "Comedy", questionnaire_id: genQ.id, movie_id: movie2.id)
+# action = Genre.create(name: "Action", questionnaire_id: genQ.id, movie_id: movie1.id)
+# comedy = Genre.create(name: "Comedy", questionnaire_id: genQ.id, movie_id: movie2.id)
 
 puts "🔥 🔥 🔥 🔥 "

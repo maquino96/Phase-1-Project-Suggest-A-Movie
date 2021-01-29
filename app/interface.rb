@@ -148,7 +148,7 @@ class Interface
 
     def see_favorites 
         user.favorites.split(',').each{|movie| sleep(0.3) 
-            puts movie}
+            puts movie} if user.favorites 
         sleep(1.5)
         puts "."
         sleep(0.3)
